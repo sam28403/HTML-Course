@@ -2,12 +2,37 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>我的第一个网页</title>
+    <title>ROM 下载表单</title>
 </head>
 <body>
-<h1>你好，HTML！</h1>
-<p>段落1，这是一大串文字</p>
-<p>段落2<br>abcdefghijklmnopqrstuvwxyz</p>
-<hr>
+<h1>ROM 下载申请</h1>
+
+<form action="#" method="post">
+    <p>
+        <label for="name">你的名字：</label>
+        <input type="text" id="name" name="username">
+    </p>
+
+    <p>
+        <label for="device">你的设备：</label>
+        <select id="device" name="device">
+            <option value="pixel">Pixel 9 Pro</option>
+            <option value="s25">Galaxy S25</option>
+            <option value="x15">Xiaomi 15 Ultra</option>
+        </select>
+    </p>
+
+    <p>你选择的 ROM：</p>
+    <input type="radio" name="rom" value="PixelOS"> PixelOS
+    <input type="radio" name="rom" value="LineageOS"> LineageOS
+    <input type="radio" name="rom" value="crDroid"> crDroid
+
+    <p>
+        <label for="msg">备注说明：</label><br>
+        <textarea id="msg" name="message" rows="4" cols="30"></textarea>
+    </p>
+
+    <button type="submit">提交下载申请</button>
+</form>
 </body>
 </html>
