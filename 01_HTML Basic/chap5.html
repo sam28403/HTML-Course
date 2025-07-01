@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Pixel报修表单</title>
+</head>
+<body>
+<h1>Pixel设备报修表单</h1>
+
+<form action="#" method="post">
+  <p>
+    <label for="name"><b>Name:</b></label>
+    <input type="text" name="name" id="name">
+  </p>
+
+  <p>
+    <label for="device"><b>Select your device</b></label>
+    <select name="device" id="device">
+      <option value="Komodo">Pixel 9 Pro XL</option>
+      <option value="Caiman">Pixel 9 Pro</option>
+      <option value="Tokay">Pixel 9</option>
+      <option value="Comet">Pixel 9 Pro Fold</option>
+      ---
+      <option value="Akita">Pixel 8a</option>
+      <option value="Husky">Pixel 8 Pro</option>
+      <option value="Shiba">Pixel 8</option>
+      ---
+      <option value="Tangorpro">Pixel Tablet</option>
+      <option value="Felix">Pixel Fold</option>
+      <option value="Lynx">Pixel 7a</option>
+      <option value="Cheetah">Pixel 7 Pro</option>
+      <option value="Panther">Pixel 7</option>
+      ---
+      <option value="Bluejay">Pixel 6a</option>
+      <option value="Raven">Pixel 6 Pro</option>
+      <option value="Oriole">Pixel 6</option>
+      ---
+      <option value="Barbet">Pixel 5a</option>
+      <option value="Redfin">Pixel 5</option>
+      <option value="Bramble">Pixel 4a (5G)</option>
+      <option value="Sunfish">Pixel 4a</option>
+      <option value="Coral">Pixel 4 XL</option>
+      <option value="Flame">Pixel 4</option>
+      ---
+      <option value="Bonito">Pixel 3a XL</option>
+      <option value="Sargo">Pixel 3a</option>
+      <option value="Crosshatch">Pixel 3 XL</option>
+      <option value="Blueline">Pixel 3</option>
+      ---
+      <option value="Taimen">Pixel 2 XL</option>
+      <option value="Walleye">Pixel 2</option>
+      ---
+      <option value="Marlin">Pixel XL</option>
+      <option value="Sailfish">Pixel</option>
+
+    </select>
+  </p>
+
+  <p><b>你是否解除了BootLoader锁定？</b></p>
+  <input type="radio" name="BL_status" value="true"> Yes
+  <input type="radio" name="BL_status" value="false"> No
+
+  <p><b>请选择您的手机遇到的问题</b></p>
+  <input type="checkbox" name="issue" value="screen"> 屏幕问题
+  <input type="checkbox" name="issue" value="battery"> 电池问题
+  <input type="checkbox" name="issue" value="fingerprint"> 指纹解锁问题
+  <input type="checkbox" name="issue" value="firmware"> 系统软件问题
+  <input type="checkbox" name="issue" value="other"> 其他问题
+
+  <p>
+    <label for="msg"><b>请详细输入您的问题：</b></label><br>
+    <textarea id="msg" name="message" rows="8" cols="60"></textarea>
+  </p>
+
+  <button type="submit">提交并打印回执</button>
+
+
+
+</form>
+</body>
+</html>
