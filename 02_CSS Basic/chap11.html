@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>交互式卡片</title>
+  <style>
+    body {
+      font-family: "Segoe UI", "微软雅黑", sans-serif;
+      background-color: #f0f0f0;
+      padding: 40px;
+    }
+
+    .card {
+      background: linear-gradient(to bottom, #fff, lightskyblue);
+      border: 2px solid #ccc;
+      border-radius: 12px;
+      padding: 20px;
+      width: 280px;
+      margin: 0 auto;
+      box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
+      transition:
+              transform 0.3s ease,
+              background 0.4s ease-in-out,
+              box-shadow 0.3s ease;
+
+    }
+
+    .card:hover {
+      transform: scale(1.05);
+      box-shadow: 8px 8px 26px rgba(0, 0, 0, 0.2);
+      background: linear-gradient(to bottom, #fff, dodgerblue);
+      border-color: rebeccapurple;
+    }
+
+    .card h3 {
+      margin-top: 0;
+      color: mediumblue;
+      transition: color 0.3s;
+    }
+
+    .card:hover h3 {
+      color: orangered;
+    }
+
+    .card p {
+      color: #555;
+    }
+
+    .card:hover p {
+      color: black;
+    }
+  </style>
+</head>
+<body>
+
+<div class="card">
+  <h3>EvolutionX</h3>
+  <p>A stylish, fully-featured Pixel ROM with smooth animations and deep theming support.</p>
+</div>
+
+</body>
+</html>

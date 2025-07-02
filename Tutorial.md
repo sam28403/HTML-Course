@@ -1565,3 +1565,146 @@ box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
 4. 卡片中包含 `<h3>` 标题和 `<p>` 简介内容
 
 本节是视觉美化的核心，掌握这些你就能让页面“有设计感”起来！💫
+
+------
+
+# 🎬 CSS 第六节：过渡动画与动态交互
+
+------
+
+## 🎯 本节目标：
+
+- 掌握 `:hover` 伪类（鼠标悬停效果）
+- 使用 `transition` 实现平滑动画
+- 实战按钮/卡片的**颜色变化、阴影变化、缩放效果**
+- 打造“有反馈感”的交互界面
+
+------
+
+## 🧩 一、`:hover` 是什么？
+
+`hover` 是 CSS 中最常见的**伪类选择器**，当鼠标悬停在某个元素上时会触发：
+
+```css
+.button:hover {
+  background-color: blue;
+}
+```
+
+------
+
+## 🧪 二、`transition` 属性基础
+
+`transition` 可以让 CSS 的变化“慢下来”，带有动画效果。
+
+```css
+transition: all 0.3s ease;
+```
+
+| 属性   | 含义                                                 |
+| ------ | ---------------------------------------------------- |
+| `all`  | 所有可变化的属性                                     |
+| `0.3s` | 动画时长                                             |
+| `ease` | 缓动函数（常用还有 `linear`, `ease-in`, `ease-out`） |
+
+------
+
+## 💻 示例：交互式卡片样式
+
+```html
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>交互式卡片</title>
+  <style>
+    body {
+      font-family: "Segoe UI", "微软雅黑", sans-serif;
+      background-color: #f0f0f0;
+      padding: 40px;
+    }
+
+    .card {
+      background: linear-gradient(to bottom, #fff, #f0e6ff);
+      border: 2px solid #ccc;
+      border-radius: 12px;
+      padding: 20px;
+      width: 280px;
+      margin: 0 auto;
+      box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s ease;
+    }
+
+    .card:hover {
+      transform: scale(1.05);
+      box-shadow: 6px 6px 20px rgba(0, 0, 0, 0.2);
+      border-color: rebeccapurple;
+    }
+
+    .card h3 {
+      margin-top: 0;
+      color: rebeccapurple;
+      transition: color 0.3s;
+    }
+
+    .card:hover h3 {
+      color: darkred;
+    }
+
+    .card p {
+      color: #555;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+    <h3>EvolutionX</h3>
+    <p>A stylish, fully-featured Pixel ROM with smooth animations and deep theming support.</p>
+  </div>
+
+</body>
+</html>
+```
+
+------
+
+## ✅ 这个示例展示了：
+
+- 卡片悬停后：
+  - 缩放放大（`transform: scale()`）
+  - 阴影加重
+  - 边框变色
+  - 标题颜色改变
+
+动画通过 `transition` 平滑进行，让交互更自然。
+
+------
+
+## 🔧 你可以尝试修改或添加：
+
+- 🟣 增加按钮，按钮 hover 时变色/弹跳
+- 🟣 让卡片文字渐显 (`opacity`)
+- 🟣 给图片添加淡入、放大等动效
+
+------
+
+## 🧪 小挑战练习：
+
+请你写一张 `.card` 卡片，要求：
+
+1. 默认是淡蓝背景 + 圆角 + 阴影
+2. 鼠标悬停时：
+   - 卡片放大一点点
+   - 背景颜色加深
+   - 标题颜色变成橘色
+   - 加大阴影
+
+这节是进入网页“灵动感”的关键——加了动效，网页就“活”了！💫
+
+## 💡 拓展练习建议（自选挑战）：
+
+1. 添加一个按钮，在 `:hover` 时变色、浮起（如登录按钮效果）
+2. 多张卡片排成一行（使用 `flexbox`）
+3. 加上图片：悬停时图片也放大（用 `transform: scale()`）
+
