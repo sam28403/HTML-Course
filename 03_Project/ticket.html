@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>Sam-Lab Railway Transit</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: "Segoe UI", "微软雅黑", sans-serif;
+        }
+
+        /* 网页整体区域划分 */
+        .container {
+            display: grid;
+            grid-template-areas:
+        "header header"
+        "sidebar main"
+        "footer footer";
+            grid-template-columns: 250px 1fr;
+            grid-template-rows: 60px 1fr 50px;
+            height: 100vh;
+        }
+
+        header {
+            grid-area: header;
+            background-color: #4b0082;
+            color: white;
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+            font-size: 24px;
+        }
+
+        aside {
+            grid-area: sidebar;
+            background-color: #eee;
+            padding: 20px;
+        }
+
+        main {
+            grid-area: main;
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+
+        footer {
+            grid-area: footer;
+            background-color: #4b0082;
+            color: white;
+            text-align: center;
+            line-height: 50px;
+        }
+
+        nav ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        nav li {
+            margin-bottom: 10px;
+        }
+
+        nav a {
+            color: #333;
+            text-decoration: none;
+        }
+
+        nav a:hover {
+            color: #4b0082;
+        }
+
+        .home-link {
+            display: flex;
+            align-items: center;
+            color: white;
+            text-decoration: none;
+        }
+
+        .home-link:hover {
+            opacity: 0.85;
+        }
+
+        .title {
+            font-size: 60px;
+            text-align: center;
+        }
+
+        .contents {
+            font-size: 24px;
+            text-align: justify;
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <a href="index.html" class="home-link">
+            <img src="https://img.picui.cn/free/2025/07/02/686496809bfed.png" alt="Sam-Lab" width="40">
+            🚇 Sam-Lab轨道交通查询
+        </a>
+    </header>
+
+    <aside>
+        <nav>
+            <ul>
+                <li><a href="linemap.html">线网图</a> </li>
+                <li><a href="metro.html">地铁线路</a></li>
+                <li><a href="urbanrail.html">市域铁路</a></li>
+                <li><a href="transfer.html">换乘查询</a></li>
+                <li><a href="ticket.html">票价说明</a></li>
+            </ul>
+        </nav>
+    </aside>
+
+    <main>
+        <h1 class="title">票价说明</h1>
+        <p class = "contents">根据上海市物价主管部门《关于同意调整本市轨道交通客运票价的批复》（沪交财[2005]527号）批复的轨道交通网络票价体系进行制定，即上海轨道交通目前实行按里程计价的多级票价，0KM至6KM为3RMB；6KM之后每10KM增加 1RMB。按里程计价时采用最短路径法，当两个站点之间超过1条换乘路径时，选取里程最短的一条路径作为两站间票价计算依据。</p>
+        <p class = "contents">根据市发展改革委、市交通委发布的《关于上海市轨道交通市域线票价机制有关事项的通知》（沪发改价调[2024]54号）的市域线票价机制进行制定，即2024年及以后开通的市域线（包含市域铁路和轨道快线），设计最高时速160公里及以上的市域线，每人公里基准费率0.45元；设计最高时速160公里以下的市域线，每人公里基准费率0.37元。起乘价为4元，每人次票价=每人公里费率*乘坐里程。当每人次票价低于或等于起乘价，按起乘价计价；高于起乘价，则按公式计算票价。市域线按元计价，尾数在0.5元及以下舍弃，0.5元以上进位1元。</p>
+    </main>
+
+    <footer>
+        版权所有 © 2025 Sam-Lab Studio
+    </footer>
+</div>
+
+</body>
+</html>

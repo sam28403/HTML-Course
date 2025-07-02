@@ -1708,3 +1708,158 @@ transition: all 0.3s ease;
 2. 多张卡片排成一行（使用 `flexbox`）
 3. 加上图片：悬停时图片也放大（用 `transform: scale()`）
 
+------
+
+# 📐 第七节：网页布局实战 - Flex 与 Grid 结合
+
+------
+
+## 🎯 本节目标
+
+- 学会构建典型网页布局（如：导航栏 + 主内容 + 侧边栏 + 页脚）
+- 熟练使用 `Flexbox` 实现横向 & 纵向布局
+- 引入 `CSS Grid` 创建复杂区域排布
+- 学会自适应设计（响应式页面的基础）
+
+------
+
+## 🧭 我们要构建的网页结构：
+
+```
++--------------------------------------------------+
+|                  顶部导航栏                      |
++----------------------+---------------------------+
+|     侧边栏菜单       |        主内容区域         |
+|                      |                           |
++----------------------+---------------------------+
+|                      页脚                        |
++--------------------------------------------------+
+```
+
+------
+
+## 💻 示例代码：Flex + Grid 网页布局实战
+
+```html
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>网页布局实战</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: "Segoe UI", "微软雅黑", sans-serif;
+    }
+
+    /* 网页整体区域划分 */
+    .container {
+      display: grid;
+      grid-template-areas:
+        "header header"
+        "sidebar main"
+        "footer footer";
+      grid-template-columns: 250px 1fr;
+      grid-template-rows: 60px 1fr 50px;
+      height: 100vh;
+    }
+
+    header {
+      grid-area: header;
+      background-color: #4b0082;
+      color: white;
+      display: flex;
+      align-items: center;
+      padding: 0 20px;
+      font-size: 24px;
+    }
+
+    aside {
+      grid-area: sidebar;
+      background-color: #eee;
+      padding: 20px;
+    }
+
+    main {
+      grid-area: main;
+      padding: 20px;
+      background-color: #f9f9f9;
+    }
+
+    footer {
+      grid-area: footer;
+      background-color: #4b0082;
+      color: white;
+      text-align: center;
+      line-height: 50px;
+    }
+
+    nav ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    nav li {
+      margin-bottom: 10px;
+    }
+
+    nav a {
+      color: #333;
+      text-decoration: none;
+    }
+
+    nav a:hover {
+      color: #4b0082;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <header>🚇 上海轨道交通信息网</header>
+
+  <aside>
+    <nav>
+      <ul>
+        <li><a href="#">地铁线路</a></li>
+        <li><a href="#">市域铁路</a></li>
+        <li><a href="#">换乘查询</a></li>
+        <li><a href="#">票价说明</a></li>
+      </ul>
+    </nav>
+  </aside>
+
+  <main>
+    <h2>欢迎来到上海轨道交通</h2>
+    <p>本平台提供上海地铁、市域铁路、机场联络线等线路信息。</p>
+    <p>您可以在左侧选择功能模块，查看更多服务。</p>
+  </main>
+
+  <footer>
+    版权所有 © 2025 上海轨道交通信息网
+  </footer>
+</div>
+
+</body>
+</html>
+```
+
+------
+
+## ✅ 核心讲解：
+
+| 区块                       | 使用方式             | 说明                               |
+| -------------------------- | -------------------- | ---------------------------------- |
+| `.container`               | `display: grid`      | 网页整体布局由 Grid 控制区域划分   |
+| `header/aside/main/footer` | `grid-area` 命名区域 | 让 HTML 更语义化、可读性高         |
+| `header/footer`            | `flex布局`           | 居中对齐文字更方便                 |
+| `sidebar + main`           | 并排显示             | `grid-template-columns: 250px 1fr` |
+
+------
+
+## 💡 拓展练习建议：
+
+1. 改变颜色风格为你自己的主题（例如：Pixel风格）
+2. 把上节学到的 `.card-list` 放入 `<main>` 中
+3. 加一个顶部 logo 图片（左侧）+ 导航链接（右侧）
+

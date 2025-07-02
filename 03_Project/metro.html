@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <title>Sam-Lab Railway Transit</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: "Segoe UI", "微软雅黑", sans-serif;
+    }
+
+    /* 网页整体区域划分 */
+    .container {
+      display: grid;
+      grid-template-areas:
+        "header header"
+        "sidebar main"
+        "footer footer";
+      grid-template-columns: 250px 1fr;
+      grid-template-rows: 60px 1fr 50px;
+      height: 100vh;
+    }
+
+    header {
+      grid-area: header;
+      background-color: #4b0082;
+      color: white;
+      display: flex;
+      align-items: center;
+      padding: 0 20px;
+      font-size: 24px;
+    }
+
+    aside {
+      grid-area: sidebar;
+      background-color: #eee;
+      padding: 20px;
+    }
+
+    main {
+      grid-area: main;
+      padding: 20px;
+      background-color: #f9f9f9;
+    }
+
+    footer {
+      grid-area: footer;
+      background-color: #4b0082;
+      color: white;
+      text-align: center;
+      line-height: 50px;
+    }
+
+    nav ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    nav li {
+      margin-bottom: 10px;
+    }
+
+    nav a {
+      color: #333;
+      text-decoration: none;
+    }
+
+    nav a:hover {
+      color: #4b0082;
+    }
+
+    .home-link {
+      display: flex;
+      align-items: center;
+      color: white;
+      text-decoration: none;
+    }
+
+    .home-link:hover {
+      opacity: 0.85;
+    }
+
+    .card-list {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-around;
+      align-items: flex-start;
+      gap: 20px;
+      margin: 30px;
+    }
+
+    .card {
+      display: flex;
+      align-items: center;
+      background: #ffffff;
+      border-radius: 10px;
+      box-shadow: 4px 4px 12px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+      width: 400px;
+      margin: 0 auto;
+      transition: all 0.3s ease;
+    }
+
+    .card:hover {
+      transform: scale(1.03);
+      box-shadow: 6px 6px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .card img {
+      width: 120px;
+      height: 120px;
+      border-radius: 8px;
+      object-fit: cover;
+      margin-right: 20px;
+    }
+
+    .info {
+      flex: 1;
+    }
+
+    .info h1 {
+      margin: 0 0 10px;
+      color: black;
+      font-size: 40px;
+    }
+
+    .info p {
+      margin: 0;
+      color: #666;
+      line-height: 1.5;
+      font-size: 24px;
+    }
+
+    .title {
+      font-size: 60px;
+      text-align: center;
+    }
+
+    @media (max-width: 400px) {
+      .card {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+      }
+
+      .card img {
+        margin: 0 0 15px 0;
+      }
+
+      .info h2 {
+        font-size: 28px;
+      }
+
+      .info p {
+        font-size: 18px;
+      }
+    }
+
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <header>
+    <a href="index.html" class="home-link">
+      <img src="https://img.picui.cn/free/2025/07/02/686496809bfed.png" alt="Sam-Lab" width="40">
+      🚇 Sam-Lab轨道交通查询
+    </a>
+  </header>
+  <aside>
+    <nav>
+      <ul>
+        <li><a href="linemap.html">线网图</a> </li>
+        <li><a href="metro.html">地铁线路</a></li>
+        <li><a href="urbanrail.html">市域铁路</a></li>
+        <li><a href="transfer.html">换乘查询</a></li>
+        <li><a href="ticket.html">票价说明</a></li>
+      </ul>
+    </nav>
+  </aside>
+
+  <main>
+    <h1 class="title">上海地铁线路表</h1>
+    <div class="card-list">
+      <div class="card">
+        <img src="https://upload.wikimedia.org/wikipedia/zh/8/82/Shanghai_Metro_Logo.svg" alt="Shanghai Metro" width="100">
+        <div class="info">
+          <h1>1号线</h1>
+          <p><strong>莘庄 - 富锦路</strong></p>
+        </div>
+      </div>
+
+      <div class="card">
+        <img src="https://upload.wikimedia.org/wikipedia/zh/8/82/Shanghai_Metro_Logo.svg" alt="Shanghai Metro" width="100">
+        <div class="info">
+          <h1>2号线</h1>
+          <p><strong>蟠祥路 - 浦东1号2号航站楼</strong></p>
+        </div>
+      </div>
+
+      <div class="card">
+        <img src="https://upload.wikimedia.org/wikipedia/zh/8/82/Shanghai_Metro_Logo.svg" alt="Shanghai Metro" width="100">
+        <div class="info">
+          <h1>3号线</h1>
+          <p><strong>上海南站 - 江杨北路</strong></p>
+        </div>
+      </div>
+
+      <div class="card">
+        <img src="https://upload.wikimedia.org/wikipedia/zh/8/82/Shanghai_Metro_Logo.svg" alt="Shanghai Metro" width="100">
+        <div class="info">
+          <h1>4号线</h1>
+          <p><strong>🔄环线🔄</strong></p>
+        </div>
+      </div>
+
+      <div class="card">
+        <img src="https://upload.wikimedia.org/wikipedia/zh/8/82/Shanghai_Metro_Logo.svg" alt="Shanghai Metro" width="100">
+        <div class="info">
+          <h1>5号线</h1>
+          <p><strong>莘庄 - 奉贤新城</strong></p>
+          <p><strong>莘庄 - 闵行开发区</strong></p>
+        </div>
+      </div>
+
+      <div class="card">
+        <img src="https://upload.wikimedia.org/wikipedia/zh/8/82/Shanghai_Metro_Logo.svg" alt="Shanghai Metro" width="100">
+        <div class="info">
+          <h1>6号线</h1>
+          <p><strong>东方体育中心 - 港城路</strong></p>
+        </div>
+      </div>
+
+      <div class="card">
+        <img src="https://upload.wikimedia.org/wikipedia/zh/8/82/Shanghai_Metro_Logo.svg" alt="Shanghai Metro" width="100">
+        <div class="info">
+          <h1>7号线</h1>
+          <p><strong>美兰湖 - 花木路</strong></p>
+        </div>
+      </div>
+
+      <div class="card">
+        <img src="https://upload.wikimedia.org/wikipedia/zh/8/82/Shanghai_Metro_Logo.svg" alt="Shanghai Metro" width="100">
+        <div class="info">
+          <h1>8号线</h1>
+          <p><strong>市光路 - 沈杜公路</strong></p>
+        </div>
+      </div>
+
+      <div class="card">
+        <img src="https://upload.wikimedia.org/wikipedia/zh/8/82/Shanghai_Metro_Logo.svg" alt="Shanghai Metro" width="100">
+        <div class="info">
+          <h1>9号线</h1>
+          <p><strong>上海松江站 - 曹路</strong></p>
+        </div>
+      </div>
+
+      <div class="card">
+        <img src="https://upload.wikimedia.org/wikipedia/zh/8/82/Shanghai_Metro_Logo.svg" alt="Shanghai Metro" width="100">
+        <div class="info">
+          <h1>10号线</h1>
+          <p><strong>虹桥火车站 - 基隆路</strong></p>
+          <p><strong>航中路 - 基隆路</strong></p>
+        </div>
+      </div>
+
+      <div class="card">
+        <img src="https://upload.wikimedia.org/wikipedia/zh/8/82/Shanghai_Metro_Logo.svg" alt="Shanghai Metro" width="100">
+        <div class="info">
+          <h1>11号线</h1>
+          <p><strong>迪士尼 - 花桥</strong></p>
+          <p><strong>迪士尼 - 嘉定北</strong></p>
+        </div>
+      </div>
+
+      <div class="card">
+        <img src="https://upload.wikimedia.org/wikipedia/zh/8/82/Shanghai_Metro_Logo.svg" alt="Shanghai Metro" width="100">
+        <div class="info">
+          <h1>12号线</h1>
+          <p><strong>七莘路 - 金海路</strong></p>
+        </div>
+      </div>
+
+      <div class="card">
+        <img src="https://upload.wikimedia.org/wikipedia/zh/8/82/Shanghai_Metro_Logo.svg" alt="Shanghai Metro" width="100">
+        <div class="info">
+          <h1>13号线</h1>
+          <p><strong>金运路 - 张江路</strong></p>
+        </div>
+      </div>
+
+      <div class="card">
+        <img src="https://upload.wikimedia.org/wikipedia/zh/8/82/Shanghai_Metro_Logo.svg" alt="Shanghai Metro" width="100">
+        <div class="info">
+          <h1>14号线</h1>
+          <p><strong>封浜 - 桂桥路</strong></p>
+        </div>
+      </div>
+
+      <div class="card">
+        <img src="https://upload.wikimedia.org/wikipedia/zh/8/82/Shanghai_Metro_Logo.svg" alt="Shanghai Metro" width="100">
+        <div class="info">
+          <h1>15号线</h1>
+          <p><strong>顾村公园 - 紫竹高新区</strong></p>
+        </div>
+      </div>
+
+      <div class="card">
+        <img src="https://upload.wikimedia.org/wikipedia/zh/8/82/Shanghai_Metro_Logo.svg" alt="Shanghai Metro" width="100">
+        <div class="info">
+          <h1>16号线</h1>
+          <p><strong>龙阳路 - 滴水湖</strong></p>
+        </div>
+      </div>
+
+      <div class="card">
+        <img src="https://upload.wikimedia.org/wikipedia/zh/8/82/Shanghai_Metro_Logo.svg" alt="Shanghai Metro" width="100">
+        <div class="info">
+          <h1>17号线</h1>
+          <p><strong>虹桥火车站 - 西岑</strong></p>
+        </div>
+      </div>
+
+      <div class="card">
+        <img src="https://upload.wikimedia.org/wikipedia/zh/8/82/Shanghai_Metro_Logo.svg" alt="Shanghai Metro" width="100">
+        <div class="info">
+          <h1>18号线</h1>
+          <p><strong>航头 - 长江南路</strong></p>
+        </div>
+      </div>
+
+      <div class="card">
+        <img src="https://upload.wikimedia.org/wikipedia/zh/8/82/Shanghai_Metro_Logo.svg" alt="Shanghai Metro" width="100">
+        <div class="info">
+          <h1>浦江线</h1>
+          <p><strong>沈杜公路 - 汇臻路</strong></p>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <footer>
+    版权所有 © 2025 Sam-Lab Studio
+  </footer>
+</div>
+
+</body>
+</html>

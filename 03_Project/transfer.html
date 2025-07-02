@@ -1,0 +1,937 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>Sam-Lab Railway Transit</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: "Segoe UI", "微软雅黑", sans-serif;
+        }
+
+        /* 网页整体区域划分 */
+        .container {
+            display: grid;
+            grid-template-areas:
+        "header header"
+        "sidebar main"
+        "footer footer";
+            grid-template-columns: 250px 1fr;
+            grid-template-rows: 60px 1fr 50px;
+            height: 100vh;
+        }
+
+        header {
+            grid-area: header;
+            background-color: #4b0082;
+            color: white;
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+            font-size: 24px;
+        }
+
+        aside {
+            grid-area: sidebar;
+            background-color: #eee;
+            padding: 20px;
+        }
+
+        main {
+            grid-area: main;
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+
+        footer {
+            grid-area: footer;
+            background-color: #4b0082;
+            color: white;
+            text-align: center;
+            line-height: 50px;
+        }
+
+        nav ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        nav li {
+            margin-bottom: 10px;
+        }
+
+        nav a {
+            color: #333;
+            text-decoration: none;
+        }
+
+        nav a:hover {
+            color: #4b0082;
+        }
+
+        .home-link {
+            display: flex;
+            align-items: center;
+            color: white;
+            text-decoration: none;
+        }
+
+        .home-link:hover {
+            opacity: 0.85;
+        }
+
+        .title {
+            font-size: 60px;
+            text-align: center;
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <a href="index.html" class="home-link">
+            <img src="https://img.picui.cn/free/2025/07/02/686496809bfed.png" alt="Sam-Lab" width="40">
+            🚇 Sam-Lab轨道交通查询
+        </a>
+    </header>
+
+    <aside>
+        <nav>
+            <ul>
+                <li><a href="linemap.html">线网图</a> </li>
+                <li><a href="metro.html">地铁线路</a></li>
+                <li><a href="urbanrail.html">市域铁路</a></li>
+                <li><a href="transfer.html">换乘查询</a></li>
+                <li><a href="ticket.html">票价说明</a></li>
+            </ul>
+        </nav>
+    </aside>
+
+    <main>
+        <h1 class="title">本页面仅作为演示</h1>
+        <div class="conditie-left">
+
+
+
+            <div id="shmetroshowclginfo1" class="inner_main_clg11">
+                <!--主栏目信息-->
+                <span style="font-size:20px; color:#000; font-family:'宋体';"><strong>计划您的出行</strong></span>
+                <!-- <div class="shendan"><img src="/skin/images/shengan.png" /></div>-->
+                <div style="float:right;padding-right:16px;font-size:20px;font-family:'宋体';color:#000;font-weight:bold;display:block;"><span><a href="http://qwkdcx.shmetro.com:429/" target="_blank" onclick="return window.confirm('本功能建议使用谷歌浏览器或其他浏览器的极速模式打开!');" title="全网可达查询">全网可达查询</a></span></div>
+            </div>
+            <div id="tabMenu">
+                <ul>
+                    <li class="curent"><a href="javascript:triggerTab(this);"  title="预计下车时间查询，按回车切换后选择线路车站查询">预计下车时间查询</a></li>
+                    <li><a href="javascript:triggerTab(this);" title="预计下车时间查询,按回车切换后选择线路车站查询">最晚上车时间查询</a></li>
+                </ul>
+            </div>
+            <form method="post" action="./rpresult.aspx?catalogId=1277" id="form1" style="padding:15px">
+
+                <div class="clearAll"></div>
+                <div class="inner_mainrpf">
+                    <div id="shmetroroutepriceform11" class="inner_mainrpf_wrap ">
+                        <!--查询结果 -->
+
+                        <script type="text/javascript">
+                            //触发切换
+                            function triggerTab(obj)
+                            {
+                                $($(obj).parent).trigger('click');
+                            }
+
+
+                            function getLineCodeFromStationCode(sCode)
+                            {
+                                if (sCode == '') return '';
+                                if (sCode.length != 4) return '';
+                                if (sCode.charAt(0) == '0')
+                                {
+                                    return sCode.substr(1,1);
+                                }
+                                else
+                                {
+                                    return sCode.substr(0,2);
+                                }
+
+                            }
+
+                            //起始站与终点站交换
+                            function swapstations() {
+                                //隐藏弹出层
+                                $('.ddllay').hide(1, function() { $(this).removeClass('displayed'); });
+                                $('.serlay').hide();
+                                var tmp = '';
+                                //交换hiddenfield
+                                tmp = $('#' + rpfid + '_hdf_ss').val();
+                                $('#' + rpfid + '_hdf_ss').val($('#' + rpfid + '_hdf_ds').val());
+                                $('#' + rpfid + '_hdf_ds').val(tmp);
+                                //交换textbox
+                                tmp = $('#' + rpfid + '_tb_ss').val();
+                                $('#' + rpfid + '_tb_ss').val($('#' + rpfid + '_tb_ds').val());
+                                $('#' + rpfid + '_tb_ds').val(tmp);
+                                //交换div 背景
+                                tmp = $('#' + 'divbg_ss').html();
+                                $('#' + 'divbg_ss').html($('#' + 'divbg_ds').html());
+                                $('#' + 'divbg_ds').html(tmp);
+                            }
+
+                            //显示下拉框弹出层
+                            function showddllay(obj) {
+                                var othis = $(obj).parent().parent().find('.ddllay');
+
+                                if (othis.hasClass("displayed")) {
+                                    othis.hide(1, function() { othis.removeClass("displayed"); }); ;
+                                    //$(obj).parent().parent().find('.value input[type="text"]').removeAttr('readOnly');
+                                    $(obj).parent().parent().find('.value input[type="text"]').css('visibility', 'visible');
+                                    $(obj).parent().parent().find('.value .tbstbg').css('visibility', 'visible');
+                                }
+                                else {
+                                    //隐藏查询弹出层
+                                    $(obj).parent().parent().find('.serlay').hide();
+                                    //$(obj).parent().parent().find('.value input[type="text"]').attr('readOnly', "readOnly");
+                                    $(obj).parent().parent().find('.value input[type="text"]').css('visibility', 'hidden');
+                                    $(obj).parent().parent().find('.value .tbstbg').css('visibility', 'hidden');
+                                    //初始化ddlline,ddlstation
+                                    var sCode = $(obj).parent().parent().find('.value input[type="hidden"]').val();
+
+                                    var lineno = getLineCodeFromStationCode(sCode)
+
+                                    initddlline(othis.find('.ddlline'), lineno);
+
+                                    initddlstation(othis.find('.ddlstation'), lineno, sCode);
+
+                                    othis.show(1, function() { othis.addClass("displayed"); });
+                                }
+                            }
+
+                            //初始化ddlline下拉框数据
+                            function initddlline(obj, selval) {
+                                var othis = $(obj);
+                                //var opt = othis.find('option');
+                                //for (var i = 0; i < opt.size(); i++) {
+                                //    alert(opt.eq(i).val());
+                                //    if (opt.eq(i).val() == selval) {
+                                othis.val(selval);
+                                //        break;
+                                //    }
+                                //}
+                            }
+
+                            //初始化ddlstation下拉框数据
+                            function initddlstation(obj, lineno, selval) {
+                                var othis = $(obj);
+                                othis.empty();
+                                othis.append("<option value=''>请选择</option>")
+                                jQuery.support.cors = true;
+                                $.ajax({
+                                    contentType: 'text/plain',
+                                    type: 'GET',
+                                    dataType: 'text'
+                                    //, url: "https://m.shmetro.com/core/shmetro/mdstationinfoback.ashx"
+                                    , url: "https://m.shmetro.com/core/shmetro/mdstationinfoback_new.ashx"
+
+
+                                    , timeout: 5000
+                                    //,dataType:'JSONP' // 处理Ajax跨域问题
+                                    , async: true
+                                    , data: { 'act': 'slsddl', 'ln': lineno, 'sc': selval }
+                                    , error: function(XMLHttpRequest, textStatus, errorThrown) {
+                                        //alert("err:" + textStatus);
+                                    }
+                                    , success: function(data, textStatus) {
+                                        //alert(data);
+                                        if (data != "error" && data != "nodata") {
+                                            othis.append(data);
+                                        }
+
+                                    }
+                                });
+                            }
+
+                            //通过下拉框设置页面中各元素的值或内容
+                            function pageloadinit(objs, objl) {
+                                var othis = $(objs);
+                                var lValue = $('#' + rpfid + '_' + objl).val()
+                                //var lName = $('#' + rpfid + '_' + objl + ' option:selected').text();
+                                var lName = $('#' + rpfid + '_' + objl + ' option:selected').val();
+                                var sCode = othis.val();
+                                var sName = othis.find('option:selected').text();
+
+                                if (lValue == '' || sCode == '') {
+                                    othis.parent().parent().find('.value input[type="hidden"]').val(sCode);
+                                    othis.parent().parent().find('.value input[type="text"]').val('');
+                                    //othis.parent().parent().find('.value .tbstbg').html('');
+                                    othis.parent().parent().find('.value .tbstbg').find('span').remove();
+                                    othis.parent().parent().find('.value .tbstbg').css('left','1.6%').css('right','auto').find('b').css('display','');
+                                }
+                                else {
+                                    othis.parent().parent().find('.value input[type="hidden"]').val(sCode);
+                                    othis.parent().parent().find('.value input[type="text"]').val(sName);
+                                    //othis.parent().parent().find('.value .tbstbg').html("<span>" + sName + "</span>" + lName);
+                                    //othis.parent().parent().find('.value .tbstbg').html("<span class=\"ln" + lName + "\">" + lName + "</span>");
+                                    othis.parent().parent().find('.value .tbstbg').find('b').css('display', 'none');
+                                    othis.parent().parent().find('.value .tbstbg').find('span').remove();
+                                    if(lName==71){
+                                        othis.parent().parent().find('.value .tbstbg').css('right','42px').css('left', 'auto').append('<span class="idl ln' + lName + '"><span class="lineno1">市域机场线</span></span>');
+                                    }else if(lName==61){
+                                        othis.parent().parent().find('.value .tbstbg').css('right','42px').css('left', 'auto').append('<span class="idl ln' + lName + '"><span class="lineno1">浦江线</span></span>');
+                                    }else{
+                                        othis.parent().parent().find('.value .tbstbg').css('right','42px').css('left', 'auto').append('<span class="idl ln_' + lName + '"><span class="lineno"></span><span class="ln-text"><img src="/skin/images/line/'+lName+'.svg" style="height:23px;"></span></span>');
+                                    }}
+                            }
+
+                            function chkrpform(obj) {
+                                var ss = $('#' + rpfid + '_hdf_ss').val();
+                                var ds = $('#' + rpfid + '_hdf_ds').val();
+                                if (ss == '' ) {
+                                    alert("起始站无效！");
+                                    return false;
+                                }
+                                if (ds == '') {
+                                    alert("终点站无效！");
+                                    return false;
+                                }
+                                if (Math.abs(parseInt(ss) - parseInt(ds)) <= 0) {
+                                    alert("起点站与终点站不能是同一个车站！");
+                                    return false;
+                                }
+                                //计划出行
+                                var tm = parseInt($("#tm1 .hour").val())*60*60 + parseInt($("#tm1 .min").val())*60;
+
+                                return true;
+                            }
+
+                        </script>
+                        <script type="text/javascript">
+
+                            var ss = '';
+                            var ds = '';
+                            var rptimer = null;
+
+                            function setStationCode(obj) {
+                                var othis = $(obj);
+
+                                var sCode = othis.attr('id');
+                                //var sName = othis.find('span').text();
+                                var sName = othis.find('span.st-name').text();
+                                var sbgLine = othis.html();
+                                var sLine = getLineCodeFromStationCode(sCode);
+
+                                othis.parent().parent().parent().find('.value input[type="hidden"]').val(sCode);
+                                othis.parent().parent().parent().find('.value input[type="text"]').val(sName);
+                                //othis.parent().parent().find('.value .tbstbg').html(sbgLine);
+                                //othis.parent().parent().parent().find('.value .tbstbg').html("<span class=\"ln" + sLine + "\">" + sLine + "</span>");
+
+                                othis.parent().parent().parent().find('.value .tbstbg').find('span').remove();
+                                if(sLine==71){
+                                    othis.parent().parent().parent().find('.value .tbstbg').css('right','42px').css('left','auto').append('<span class="idl ln' + sLine + '"><span class="lineno1">机场联络线</span></span>');
+                                }else if(sLine==61){
+                                    othis.parent().parent().parent().find('.value .tbstbg').css('right','42px').css('left','auto').append('<span class="idl ln' + sLine + '"><span class="lineno1">浦江线</span></span>');
+                                }else{  othis.parent().parent().parent().find('.value .tbstbg').css('right','42px').css('left','auto').append('<span class="idl ln_' + sLine + '"><span class="lineno"></span><span class="ln-text"><img src="/skin/images/line/'+sLine+'.svg" style="height:23px;"></span></span>');
+
+                                }
+                                othis.parent().parent().hide();
+
+                            }
+
+                            function showserlay(obj) {
+                                var othis = $(obj);
+                                var serlay = othis.parent().parent().find('.serlay');
+
+                                var cv = $.trim(othis.val());
+                                console.log("cv:" + cv);
+                                if (cv == '') {
+                                    serlay.hide();
+                                    ss = '';
+                                    ds = '';
+                                    othis.parent().find(' input[type="hidden"]').val('');
+                                    othis.parent().find(' input[type="text"]').val('');
+                                    othis.parent().find('.tbstbg').find('span').remove();
+                                    othis.parent().find('.tbstbg').css('right','auto').css('left', '1.6%').find('b').css('display', '');
+                                    return;
+                                }
+                                else {
+                                    othis.parent().find('.tbstbg').css('left','auto').css('right','42px').find('b').css('display','none');
+                                }
+
+                                if (cv.length >= 2) {
+                                    if (cv[cv.length - 1] == '站' && cv[cv.length - 2] != '车') {
+                                        cv = cv.substr(0, cv.length - 1);
+                                    }
+                                }
+
+                                if (othis.attr('id').indexOf('tb_ss') > -1) {
+                                    if (ss == cv) {
+                                        serlay.show();
+                                        return;
+                                    }
+                                    else {
+                                        ss = cv;
+                                    }
+                                }
+                                else if (othis.attr('id').indexOf('tb_ds') > -1) {
+                                    if (ds == cv) {
+                                        serlay.show();
+                                        return;
+                                    }
+                                    else {
+                                        ds = cv;
+                                    }
+                                }
+
+                                jQuery.support.cors = true;
+                                $.ajax({
+                                    contentType: 'text/plain',
+                                    type: 'GET',
+                                    dataType: 'text'
+                                    //, url: "https://m.shmetro.com/core/shmetro/mdstationinfoback_new.ashx"
+
+                                    , url: "https://m.shmetro.com/core/shmetro/mdstationinfoback_new.ashx"
+
+
+                                    , timeout: 5000
+                                    //,contentType: "application/text; charset=utf-8"
+                                    //,dataType:'jsonp' // 处理Ajax跨域问题
+                                    , async: true
+                                    , data: { 'act': 'ssdiv', 'cv': escape(cv) }
+                                    // ,jsonp:'callback'
+                                    //, jsonpCallback:"success_jsonpCallback"
+
+                                    , error: function(XMLHttpRequest, textStatus, errorThrown) {
+                                        // alert( XMLHttpRequest.responseText );
+
+                                        //   alert("err:" + textStatus);
+                                        //toszmztimer = window.setTimeout(function() { gettoszmzdata(containobj, contentobj); }, topzmztimeroutval);
+                                    }
+                                    , success: function(data, textStatus) {
+                                        //alert(data);
+
+                                        if (data != "error" && data != "nodata") {
+                                            serlay.find('.serlaywrap').eq(0).empty();
+                                            if (data == "noresult") {
+                                                serlay.find('.serlaywrap').eq(0).append("<div>没有找到匹配的站点</div>");
+                                            }
+                                            else {
+                                                serlay.find('.serlaywrap').eq(0).append(data);
+                                            }
+                                            serlay.show();
+                                        }
+                                    }
+                                });
+
+                            }
+
+                            //站点文本框获得焦点时，进行比较延时弹出层
+                            function tbstation_focus(obj) {
+                                var othis = $(obj);
+                                if (othis.attr('id').indexOf('tb_ss') >= 0) {
+                                    ss = $.trim(othis.val());
+                                }
+                                else if (othis.attr('id').indexOf('tb_ds') >= 0) {
+                                    ds = $.trim(othis.val());
+                                }
+                                else {
+                                    return;
+                                }
+                                rptimer = window.setInterval(function() { showserlay(othis); }, 2500);
+                            }
+
+                            //站点文本框失去焦点时，清除比较和弹出功能
+                            function tbstation_blur(obj) {
+                                window.clearInterval(rptimer);
+                                rptimer = null;
+                                var othis = $(obj);
+                                if ($.trim(othis.val()) == '') {
+                                    othis.parent().find('.tbstbg').css('right','auto').css('left','1.6%').find('b').css('display', '');
+                                }
+                            }
+
+
+                        </script>
+                        <script type="text/javascript">
+
+                            //取得所有站点测试
+                            $(function () {
+
+                                jQuery.support.cors = true;
+                                $.ajax({
+                                    contentType: 'text/plain',
+                                    type: 'GET',
+                                    dataType: 'text'
+                                    , url: "https://m.shmetro.com/core/shmetro/mdstationinfoback_new.ashx"
+
+
+                                    , timeout: 5000
+                                    //,dataType:'JSONP' // 处理Ajax跨域问题
+                                    , async: true
+                                    , data: { 'act': 'getAllStations' }
+                                    , error: function (XMLHttpRequest, textStatus, errorThrown) {
+                                        //alert("err:" + textStatus);
+                                        //toszmztimer = window.setTimeout(function() { gettoszmzdata(containobj, contentobj); }, topzmztimeroutval);
+                                    }
+                                    , success: function (data, textStatus) {
+                                        $('#hidContent').html(data);
+                                    }
+                                });
+
+                            });
+
+                        </script>
+                        <div id="hidContent" style="display:none;"></div>
+                        <div class="index_routeprice_title" > <a href="javascript:void(0);"><img src="https://m.shmetro.com/workspace/shmetrotest/images/index/routeprice_h.jpg" alt="" border="0" /></a>
+                        </div>
+
+                        <div class="index_routeprice_content" style="overflow: hidden;">
+                            <div class="item item1">
+                                <div class="value"><span style="float:left;padding-top:14px; margin-right:5px;font-size:18px;  color:#000;font-family:"宋体";">起始站：</span>
+                                    <input type="hidden" name="ctl_shmetro_shmetroroutepriceform1$hdf_ss" id="ctl_shmetro_shmetroroutepriceform1_hdf_ss" />
+                                    <input name="ctl_shmetro_shmetroroutepriceform1$tb_ss" type="text" id="ctl_shmetro_shmetroroutepriceform1_tb_ss" class="tbstation" title="请输入首字母查询"/>
+                                    <div class="tbstbg" id="divbg_ss"><b class="tips">输入车站名称或首写字母</b></div>
+                                    <!--<div class="serlay">
+                                      <div class="serlaywrap"> </div>
+                                      <div class="serlayclose"> <a href="javascript:void(0);" onclick="">关　闭</a> </div>
+                                    </div>-->
+                                </div>
+                                <div class="dotbtn"> <a href="javascript:void(0);" id="dotbtn_ss" title="起始站选择"><img src="/skin/images/routepricelnk.png" alt="" border="0" /></a> </div>
+                                <div class="serlay">
+                                    <div class="serlaywrap"> </div>
+                                    <div class="serlayclose"> <a href="javascript:void(0);" onclick="">关　闭</a> </div>
+                                </div>
+                                <div class="ddllay">
+                                    <select name="ctl_shmetro_shmetroroutepriceform1$ddl_sl" id="ctl_shmetro_shmetroroutepriceform1_ddl_sl" class="ddlline" title="线路选择">
+                                        <option value="">请选择</option>
+                                        <option value="1">1号线</option>
+                                        <option value="2">2号线</option>
+                                        <option value="3">3号线</option>
+                                        <option value="4">4号线</option>
+                                        <option value="5">5号线</option>
+                                        <option value="6">6号线</option>
+                                        <option value="7">7号线</option>
+                                        <option value="8">8号线</option>
+                                        <option value="9">9号线</option>
+                                        <option value="10">10号线</option>
+                                        <option value="11">11号线</option>
+                                        <option value="12">12号线</option>
+                                        <option value="13">13号线</option>
+                                        <option value="14">14号线</option>
+                                        <option value="15">15号线</option>
+                                        <option value="16">16号线</option>
+                                        <option value="17">17号线</option>
+                                        <option value="18">18号线</option>
+                                        <option value="41">浦江线</option>
+                                        <option value="51">市域机场线</option>
+                                    </select>
+                                    <select name="ctl_shmetro_shmetroroutepriceform1$ddl_ss" id="ctl_shmetro_shmetroroutepriceform1_ddl_ss" class="ddlstation" title="车站选择">
+                                        <option value="">请选择</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="chgbtn"> <a href="javascript:void(0);"><img src="/skin/images/zhuanhua.png" border="0" alt="" /></a> </div>
+                            <div class="item item1" style="height:60px;">
+
+                                <div class="value"><span style="float:left;padding-top:14px; margin-right:5px;font-size:18px;  color:#000;font-family:"宋体";">终点站：</span>
+                                    <input type="hidden" name="ctl_shmetro_shmetroroutepriceform1$hdf_ds" id="ctl_shmetro_shmetroroutepriceform1_hdf_ds" />
+                                    <input name="ctl_shmetro_shmetroroutepriceform1$tb_ds" type="text" id="ctl_shmetro_shmetroroutepriceform1_tb_ds" class="tbstation" title="输入首字母查询"/>
+                                    <div class="tbstbg" id="divbg_ds"><b class="tips">输入车站名称或首写字母</b></div>
+                                    <!--<div class="serlay">
+                                      <div class="serlaywrap"> </div>
+                                      <div class="serlayclose"> <a href="javascript:void(0);" onclick="">关　闭</a> </div>
+                                    </div>-->
+                                </div>
+                                <div class="dotbtn"> <a href="javascript:void(0);" id="dotbtn_ds" title="终点站选择"><img src="/skin/images/routepricelnk.png" alt="" border="0" /></a> </div>
+                                <div class="serlay">
+                                    <div class="serlaywrap"> </div>
+                                    <div class="serlayclose"> <a href="javascript:void(0);" onclick="">关　闭</a> </div>
+                                </div>
+                                <div class="ddllay">
+                                    <select name="ctl_shmetro_shmetroroutepriceform1$ddl_dl" id="ctl_shmetro_shmetroroutepriceform1_ddl_dl" class="ddlline" title="线路选择">
+                                        <option value="">请选择</option>
+                                        <option value="1">1号线</option>
+                                        <option value="2">2号线</option>
+                                        <option value="3">3号线</option>
+                                        <option value="4">4号线</option>
+                                        <option value="5">5号线</option>
+                                        <option value="6">6号线</option>
+                                        <option value="7">7号线</option>
+                                        <option value="8">8号线</option>
+                                        <option value="9">9号线</option>
+                                        <option value="10">10号线</option>
+                                        <option value="11">11号线</option>
+                                        <option value="12">12号线</option>
+                                        <option value="13">13号线</option>
+                                        <option value="14">14号线</option>
+                                        <option value="15">15号线</option>
+                                        <option value="16">16号线</option>
+                                        <option value="17">17号线</option>
+                                        <option value="18">18号线</option>
+                                        <option value="41">浦江线</option>
+                                        <option value="51">市域机场线</option>
+                                    </select>
+                                    <select name="ctl_shmetro_shmetroroutepriceform1$ddl_ds" id="ctl_shmetro_shmetroroutepriceform1_ddl_ds" class="ddlstation" title="车站选择">
+                                        <option value="">请选择</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="item item2" style="height:40px; width:100%"> <span class="label" style="float:left;width:130px;font-size:18px; color:#000;font-family:"宋体";">选择票的种类：</span> <span class="value">
+                  <select name="ctl_shmetro_shmetroroutepriceform1$ddltt" id="ctl_shmetro_shmetroroutepriceform1_ddltt" title="票卡选择">
+                    <option value="0">Metro大都会二维码/交通卡</option>
+                    <option value="1">单程票</option>
+                  </select>
+                  </span> </div>
+                            <div class="item item2" style="height:40px;width:100%">
+                                <div style=" display:none"><span class="label" style="float:left;font-size:18px;font-weight:bold; color:#000;font-family:'宋体';width:92px; margin-left:8px;">换乘方式：</span> <span class="value">
+                  <select name="ctl_shmetro_shmetroroutepriceform1$ddlrt" id="ctl_shmetro_shmetroroutepriceform1_ddlrt" title="换乘方式">
+                    <option value="0">换乘次数最少</option>
+                    <option value="1">所需时间最短</option>
+                  </select>
+                  </span> </div>
+
+                                <div  id="selectshouyedate" class="daodtime1"  style=" margin-top:0px; width:215px">
+                                    <div class="left-daodatime1" style="float:left;font-size:18px;  color:#000;font-family:'宋体';line-height:40px;  ">出行日期：</div>
+                                    <div class="center-daodatime" style="margin-left:0px;" id="selectshouyet"><span class="value">
+                  <select class="station_name zd" station="t" style="width:110px;" onchange="changeTValue()" id="ctl_shmetro_shmetroroutepriceform1_t" title="出行日期选择,请选择周几">
+                  <!--<option value="MONTOTHUR">周一到周四</option>
+                    <option value="FRIDAY">周五</option>
+					 <option value="WEEKEND">周六周日</option>
+					  <option value="MAJORHOLI">节假日</option>-->
+					  <option value="">请选择日期</option>
+                      <!--<option value="MONTOTHUR1">周一</option><option value="MONTOTHUR2">周二</option><option value="MONTOTHUR3">周三</option><option value="MONTOTHUR4">周四</option><option value="FRIDAY">周五*</option><option value="WEEKEND6">周六*</option><option value="WEEKEND7">周日</option>
+                   -->
+                  </select>
+
+                  </span> </div> </div>
+
+                            </div>
+                            <div style=" float:left; width:100%">
+                                <div class="left-daodatime" id="yujixiachetime" style="float:left;font-size:18px; width:130px;  color:#000;font-family:'宋体'; ">
+                                    <div id="tabContent">
+                                        <div>
+                                            <a href="javascript:void(0);" title="您将填写计划上车时间">计划上车时间</a>
+                                        </div>
+                                        <div class="hide">
+                                            <a href="javascript:void(0);" title="您将填写计划下车时间">计划下车时间</a>
+                                        </div>
+
+                                    </div>
+                                </div><div class="center-daodatime" style="margin-left:0px;font-size:14px">
+
+                                <div id="tm1" class="select_item">
+                                    <select class="line_select hour" onchange="changeValue()" title="请选择小时"></select><span class="fen" style=" font-size:14px">&nbsp;时</span>
+                                    <select class="station_name min" onchange="changeValue()" title="请选择分钟"></select><span class="fen" style=" font-size:14px">&nbsp;分</span>
+                                </div>
+                            </div>
+                                <style>.xiax{ display:none}</style>				  </div></div>
+
+                        <!--	  <script type="text/javascript">
+                        $(document).ready(function(){
+                          $("#hide").click(function(){
+                          $(".daodtime").toggle();
+                           $(".xiax").css("display","block");
+                            $(".jhcxing").css("background","none");
+                          });
+                        });
+                        </script>-->
+
+                        <script type="text/javascript">
+                            $(document).ready(function(){
+                                $(".jhcxing").click(function(){
+                                    <!--  $(".right_ride_search_form").toggle();-->
+                                    if($(".daodtime").css("display")=="block"){
+
+                                        $(".daodtime").hide();
+                                        this.className='menu_title';
+
+                                    }else{
+
+                                        $(".daodtime").show();
+                                        this.className='jhcxing1';
+                                    }
+
+                                });
+                            });
+
+                        </script>
+
+                        <div class="item item3" style="margin-top:0px;float:left; width:100%;margin-top:4px;">
+                            <!--<<a onclick="return chkrpform(this);" id="ctl_shmetro_shmetroroutepriceform1_btnDoSearch" >查　询</a>
+                            input id="path_change" type="button" class="ride_search_form_sub" value="查　&nbsp; 询"/>-->
+                            <a onclick="return chkrpform(this);" id="path_change" href="javascript:__doPostBack('ctl_shmetro_shmetroroutepriceform1$btnDoSearch','')" style="font-size:17px; font-weight:normal" title="出行查询">查&#12288;询</a>
+                        </div>
+                    </div>
+                    <div id="search_result" class="search_result">
+                        <div class="search_result_top" style="display:none"><img src="/skin/images/title/title_10.png" alt="查询结果" class="title"/></div>
+                        <div id="access_result" class="change_result search_result_detial"></div>
+                    </div>
+                    <script type="text/javascript">
+
+                        $(function() {
+                            var hour=$("#tm1 .hour,#tm2 .hour"),min=$("#tm1 .min,,#tm2 .min"),date=new Date(),h=date.getHours(),m=date.getMinutes();
+                            var weekend1 =  $("#selectshouyedate select[station=t]");
+
+                            var weekend2 =  $("#selectshouyet select[station=t]");
+
+
+                            var day = date.getDay();
+                            weekend1.append('<option value="1"'+(1==day?'selected="selected"':'')+'>周一</option>');
+                            weekend1.append('<option value="2"'+(2==day?'selected="selected"':'')+'>周二</option>');
+                            weekend1.append('<option value="3"'+(3==day?'selected="selected"':'')+'>周三</option>');
+                            weekend1.append('<option value="4"'+(4==day?'selected="selected"':'')+'>周四</option>');
+                            weekend1.append('<option value="5"'+(5==day?'selected="selected"':'')+'>周五*</option>');
+                            weekend1.append('<option value="6"'+(6==day?'selected="selected"':'')+'>周六*</option>');
+                            weekend1.append('<option value="0"'+(0==day?'selected="selected"':'')+'>周日</option>');
+                            hour.empty();
+                            min.empty();
+                            for(var i=0;i<60;i++)min.append('<option value="'+i+'"'+(i==m?'selected="selected"':'')+'>'+(i<10?'0'+i:i)+'</option>');
+                            for(var i=4;i<24;i++)hour.append('<option value="'+i+'"'+(i==h?'selected="selected"':'')+'>'+(i<10?'0'+i:i)+'</option>');
+                            if(day=='5' || day=='6' ){
+                                hour.empty();
+                                for(var i=4;i<24;i++)hour.append('<option value="'+i+'"'+(i==h?'selected="selected"':'')+'>'+(i<10?'0'+i:i)+'</option>');
+                                if(h==1){
+                                    hour.append('<option value="0">00(次)</option>');
+                                    hour.append('<option value="1" selected="selected">01(次)</option>');
+                                }else if (h==0){
+                                    hour.append('<option value="0"  selected="selected">00(次)</option>')
+                                    hour.append('<option value="1">01(次)</option>')
+                                }else{
+                                    hour.append('<option value="0">00(次)</option>')
+                                    hour.append('<option value="1">01(次)</option>')
+                                }
+                            }else{
+                                hour.append('<option value="0">00(次)</option>');
+                            }
+                            /*$("#jhchtab-left").click(function(){
+                            $("#yujixiachetime").empty().append("预计下车时间：");
+                             });
+                             $("#jhchtab-right").click(function(){
+                            $("#yujixiachetime").empty().append("计划上车时间：");
+                             });*/
+                            $("#selectshouyedate select[station=t]").click(function(){
+                                var selectday = $("#selectshouyedate select[station=t]").val();
+                                if(selectday=='5' || selectday=='6' ){
+                                    hour.empty();
+                                    for(var i=4;i<24;i++)hour.append('<option value="'+i+'"'+(i==h?'selected="selected"':'')+'>'+(i<10?'0'+i:i)+'</option>');
+                                    if(h==1){
+                                        hour.append('<option value="0">00(次)</option>');
+                                        hour.append('<option value="1" selected="selected">01(次)</option>');
+                                    }else if (h==0){
+                                        hour.append('<option value="0"  selected="selected">00(次)</option>')
+                                        hour.append('<option value="1">01(次)</option>')
+                                    }else{
+                                        hour.append('<option value="0">00(次)</option>')
+                                        hour.append('<option value="1">01(次)</option>')
+                                    }
+                                }else{
+                                    hour.empty();
+                                    for(var i=4;i<24;i++)hour.append('<option value="'+i+'"'+(i==h?'selected="selected"':'')+'>'+(i<10?'0'+i:i)+'</option>');
+
+                                    hour.append('<option value="0">00(次)</option>');
+
+                                }
+                            });
+                            $('.chgbtn a').click(function() { swapstations(); });
+
+                            $('#dotbtn_ss').click(function() {
+                                showddllay($(this));
+
+                            });
+                            $('#dotbtn_ds').click(function() {
+                                showddllay($(this));
+
+                            });
+
+                            $('#' + rpfid + '_ddl_sl').change(function() {
+                                var othis = $(this);
+                                var lineno = othis.val();
+                                var sCode = othis.parent().parent().find('.value input[type="hidden"]').val();
+
+                                initddlstation('#' + rpfid + '_ddl_ss', lineno, sCode);
+                            });
+
+                            $('#' + rpfid + '_ddl_ss').change(function() {
+                                //var othis = $(this);
+                                /*var lName = $('#' + rpfid + '_ddl_sl option:selected').text();
+                                var sCode = othis.val();
+                                othis.parent().parent().find('.value input[type="hidden"]').val(sCode);
+                                var sName = othis.find('option:selected').text() ;
+                                othis.parent().parent().find('.value input[type="text"]').val(sName);
+                                othis.parent().parent().find('.value .tbstbg').html("<span>" + sName + "</span>" + lName);
+                                */
+                                pageloadinit('#' + rpfid + '_ddl_ss', 'ddl_sl');
+                                showddllay('#' + rpfid + '_ddl_ss');
+                            });
+
+                            $('#' + rpfid + '_ddl_dl').change(function() {
+                                var othis = $(this);
+                                var lineno = othis.val();
+                                var sCode = othis.parent().parent().find('.value input[type="hidden"]').val();
+
+                                initddlstation('#' + rpfid + '_ddl_ds', lineno, sCode);
+                            });
+
+                            $('#' + rpfid + '_ddl_ds').change(function() {
+                                /*var othis = $(this);
+                                var lName = $('#' + rpfid + '_ddl_dl option:selected').text();
+                                var sCode = othis.val();
+                                othis.parent().parent().find('.value input[type="hidden"]').val(sCode);
+                                var sName = othis.find('option:selected').text();
+                                othis.parent().parent().find('.value input[type="text"]').val(sName);
+                                othis.parent().parent().find('.value .tbstbg').html("<span style=\"color:white\">" + sName + "</span>" + lName);
+                                */
+                                pageloadinit('#' + rpfid + '_ddl_ds', 'ddl_dl');
+                                showddllay('#' + rpfid + '_ddl_ds');
+                            });
+
+                            //init
+                            pageloadinit('#' + rpfid + '_ddl_ss', 'ddl_sl');
+                            pageloadinit('#' + rpfid + '_ddl_ds', 'ddl_dl');
+
+
+
+                        });
+
+                        $(function () {
+
+                            //$('.tbstation').change(function() {
+                            //showserlay($(this));
+                            //});
+
+                            $('.tbstation').focus(function () {
+
+                                tbstation_focus($(this));
+                            });
+
+                            $('.tbstation').blur(function () {
+
+                                tbstation_blur($(this));
+                            });
+
+                            $('.serlaywrap').on('click', 'a', function () {
+                                var tbstation = $(this).parent().parent().parent().find(' input[type="text"]');
+                                tbstation_blur(tbstation);
+                                $('.tbstation').unbind('focus');
+                                $('.tbstation').unbind('blur');
+                                setStationCode($(this));
+                                setTimeout(function () {
+                                    $('.tbstation').bind('focus', function() { tbstation_focus($(this)); });
+                                    $('.tbstation').bind('blur', function () { tbstation_blur($(this)); });
+                                }, 100);
+                            });
+
+                            $('.serlayclose a').click(function () {
+                                var serlay = $(this).parent().parent();
+                                serlay.hide();
+                                var tbstation = serlay.parent().find(' input[type="text"]');
+                                tbstation_blur(tbstation);
+                            });
+
+
+                        });
+
+                    </script>
+                </div>
+
+
+
+
+                <div class="inner_mainrpr">
+                    <div id="shmetroroutepriceresult1" class="inner_mainrpr_wrap ">
+                        <!--查询结果 -->
+                        <script type="text/javascript">var rpfid='ctl_shmetro_shmetroroutepriceform1'</script>
+
+                    </div>  </div>
+            </form>
+            <script type="text/javascript">
+
+                $(function () {
+                    $(".inner_mainrpr .tabs a").each(function (index) {
+                        var othis = $(this);
+                        othis.click(function () {
+                            $(".rpcontent").css("display", "none");
+                            $(".rpcontent" + index + " .rpitempass").css("display", "none");
+                            $(".rpcontent" + index).css("display", "block");
+                            othis.parent().find(".active").removeClass("active");
+                            othis.addClass("active");
+                        });
+                    });
+
+                    $(".rpshpass").click(function () {
+                        var othis = $(this);
+
+                        if (othis.parent().find(".rpitempass").eq(0).css("display") == "none") {
+                            othis.parent().find(".rpitempass").css("display", "table");
+                        }
+                        else {
+                            othis.parent().find(".rpitempass").css("display", "none");
+                        }
+                    });
+
+                    $('.inner_mainrpr .tabs').waypoint('sticky');
+
+                    //console.log($('.scrollAnthor').offset().top);
+                    try {
+                        var scrollTop = $('.scrollAnthor').offset().top - $('.scrollAnthor').outerHeight();
+                        var agent = navigator.userAgent;
+                        //alert(agent);
+                        //if (agent.search(/(iPhone)/) != -1) {
+                        scrollTop-=30;
+                        //}
+                        //alert(scrollTop);
+                        //$(document.documentElement).scrollTop(scrollTop) || $(document.body).scrollTop(scrollTop);
+                        $('body,html').scrollTop(scrollTop);
+                    }
+                    catch (e)
+                    { }
+
+                });
+
+            </script>
+        </div>
+
+        <div id="search_result" class="search_result" style="display:none">
+
+            查询结果展示   <div class="search_result_top"><img src="/skin/images/title/title_10.png" alt="查询结果" class="title"/></div>
+
+            <div class="textix">友情提示：<br />乘客持公共交通卡可在出站后30分钟内，在上海火车站站（1号线、3号线），陕西南路站（1号线、10号线），<br />虹桥2号航站楼（2号线、10号线）进行一票换乘，享受连续计费；单程票请重新购票。<br />
+                <span>※ 本查询结果仅供参考，票价以实际发生为准</span>
+            </div>
+
+            <div id="search_result_detial" class="search_result_detial"></div>
+
+            <div class="path_show_1">
+                <div class="path_show_box">
+                    <div class="popup">
+                        <div class="popup_top"><img src="/skin/images/ico/ico_23.png" alt="关闭" title="关闭" class="close"/></div>
+                        <div class="popup_con"><div class="map" style="width:850px;height:440px;border:1px solid #d6d6d6;margin: 0 auto;margin-top: 20px;"></div></div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+
+
+        <div class="conditie-right" style="width:640px">
+            <div class="line_1" style="width:640px">
+                <div class="banner" style="width:640px">
+                    <div class="img_area" style="width:640px"></div>
+                    <div class="imgcon"></div>
+                    <div class="img_page">
+                        <div class="page_area"></div>
+                    </div>
+                    <div class="timeky"></div>
+                </div>
+            </div>
+        </div>
+</body>
+</html>
+    </main>
+
+    <footer>
+        版权所有 © 2025 Sam-Lab Studio
+    </footer>
+</div>
+
+</body>
+</html>

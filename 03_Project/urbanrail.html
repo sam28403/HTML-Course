@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>Sam-Lab Railway Transit</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: "Segoe UI", "微软雅黑", sans-serif;
+        }
+
+        /* 网页整体区域划分 */
+        .container {
+            display: grid;
+            grid-template-areas:
+        "header header"
+        "sidebar main"
+        "footer footer";
+            grid-template-columns: 250px 1fr;
+            grid-template-rows: 60px 1fr 50px;
+            height: 100vh;
+        }
+
+        header {
+            grid-area: header;
+            background-color: #4b0082;
+            color: white;
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+            font-size: 24px;
+        }
+
+        aside {
+            grid-area: sidebar;
+            background-color: #eee;
+            padding: 20px;
+        }
+
+        main {
+            grid-area: main;
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+
+        footer {
+            grid-area: footer;
+            background-color: #4b0082;
+            color: white;
+            text-align: center;
+            line-height: 50px;
+        }
+
+        nav ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        nav li {
+            margin-bottom: 10px;
+        }
+
+        nav a {
+            color: #333;
+            text-decoration: none;
+        }
+
+        nav a:hover {
+            color: #4b0082;
+        }
+
+        .home-link {
+            display: flex;
+            align-items: center;
+            color: white;
+            text-decoration: none;
+        }
+
+        .home-link:hover {
+            opacity: 0.85;
+        }
+
+        .card-list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            align-items: flex-start;
+            gap: 20px;
+            margin: 30px;
+        }
+
+        .card {
+            display: flex;
+            align-items: center;
+            background: #ffffff;
+            border-radius: 10px;
+            box-shadow: 4px 4px 12px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            width: 400px;
+            margin: 0 auto;
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            transform: scale(1.03);
+            box-shadow: 6px 6px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .card img {
+            width: 120px;
+            height: 120px;
+            border-radius: 8px;
+            object-fit: cover;
+            margin-right: 20px;
+        }
+
+        .info {
+            flex: 1;
+        }
+
+        .info h1 {
+            margin: 0 0 10px;
+            color: black;
+            font-size: 40px;
+        }
+
+        .info p {
+            margin: 0;
+            color: #666;
+            line-height: 1.5;
+            font-size: 24px;
+        }
+
+        .title {
+            font-size: 60px;
+            text-align: center;
+        }
+
+        @media (max-width: 400px) {
+            .card {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+
+            .card img {
+                margin: 0 0 15px 0;
+            }
+
+            .info h2 {
+                font-size: 28px;
+            }
+
+            .info p {
+                font-size: 18px;
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <a href="index.html" class="home-link">
+            <img src="https://img.picui.cn/free/2025/07/02/686496809bfed.png" alt="Sam-Lab" width="40">
+            🚇 Sam-Lab轨道交通查询
+        </a>
+    </header>
+    <aside>
+        <nav>
+            <ul>
+                <li><a href="linemap.html">线网图</a> </li>
+                <li><a href="metro.html">地铁线路</a></li>
+                <li><a href="urbanrail.html">市域铁路</a></li>
+                <li><a href="transfer.html">换乘查询</a></li>
+                <li><a href="ticket.html">票价说明</a></li>
+            </ul>
+        </nav>
+    </aside>
+
+    <main>
+        <h1 class="title">上海市域铁线路表</h1>
+        <div class="card-list">
+            <div class="card">
+                <img src="https://upload.wikimedia.org/wikipedia/zh/2/24/Shanghai_Suburban_Railway.jpg" alt="Shanghai Urban Lines" width="100">
+                <div class="info">
+                    <h1>市域机场线</h1>
+                    <p><strong>虹桥2号航站楼 - 浦东1号2号航站楼</strong></p>
+                </div>
+            </div>
+
+            <div class="card">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/6/64/China_Railways.svg" alt="CR">
+                <div class="info">
+                    <h1>金山铁路</h1>
+                    <p><strong>上海南 - 金山卫</strong></p>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <footer>
+        版权所有 © 2025 Sam-Lab Studio
+    </footer>
+</div>
+
+</body>
+</html>
